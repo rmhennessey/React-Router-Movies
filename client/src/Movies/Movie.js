@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 // import MovieList from './Movies/MovieList';
+import MovieCard from './MovieCard';
+// import SavedList from './SavedList';
 
 export default class Movie extends Component {
   constructor(props) {
@@ -8,7 +10,9 @@ export default class Movie extends Component {
     this.state = {
       movie: null
     };
+    
   }
+
 
   componentDidMount() {
     // change this line to grab the id passed on the URL
@@ -27,15 +31,21 @@ export default class Movie extends Component {
       });
   };
   // Uncomment this code when you're ready for the stretch problems
-  // componentWillReceiveProps(newProps){
-  //   if(this.props.match.params.id !== newProps.match.params.id){
-  //     this.fetchMovie(newProps.match.params.id);
-  //   }
-  // }
 
-  // saveMovie = () => {
-  //   const addToSavedList = this.props.addToSavedList;
-  //   addToSavedList(this.state.movie)
+  componentWillReceiveProps(newProps){
+    if(this.props.match.params.id !== newProps.match.params.id){
+      this.fetchMovie(newProps.match.params.id);
+    }
+  }
+
+  saveMovie = () => {
+    const addToSavedList = this.props.addToSavedList;
+    addToSavedList(this.state.movie)
+  }
+
+  // addToSavedList(e) {
+  //   e.preventDefault();
+  //   props.history.push('/saved-list');
   // }
 
   render() {
@@ -46,7 +56,7 @@ export default class Movie extends Component {
     const { title, director, metascore, stars } = this.state.movie;
     return (
       <div className="save-wrapper">
-        <div className="movie-card">
+        {/* <div className="movie-card">
           <h2>{title}</h2>
           <div className="movie-director">
             Director: <em>{director}</em>
@@ -61,8 +71,9 @@ export default class Movie extends Component {
               {star}
             </div>
           ))}
-        </div>
-        <div className="save-button">Save</div>
+        </div> */}
+          <MovieCard movie={this.state.movie}/>
+        <button onClick={this.saveMovie} className="save-button">Save</button>
       </div>
     );
   }
